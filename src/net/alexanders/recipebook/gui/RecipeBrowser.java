@@ -22,7 +22,7 @@ public class RecipeBrowser{
         loadRecipes();
         JFrame frame = new JFrame("RecipeBrowser");
         frame.setContentPane(recipeBrowser.mainPanel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         recipeBrowser.RecipeList.addListSelectionListener(new ListSelectionListener(){
             @Override
             public void valueChanged(ListSelectionEvent e){
@@ -77,6 +77,7 @@ public class RecipeBrowser{
                 }
             }catch(NullPointerException npe){
                 System.out.println("The RecipeBook folder was empty please populate it.");
+                System.exit(1);
             }
         }
         recipeNames = new String[recipeFiles.size()];
@@ -87,11 +88,11 @@ public class RecipeBrowser{
         recipes = new String[recipeFiles.size()];
         for(int i = 0; i < recipeFiles.size(); i++){
             try{
-                File file = recipeFiles.get(i);
-                BufferedReader reader = new BufferedReader(new FileReader(file));
-                recipes[i] = loadRecipe(reader);
+                recipes[i] = loadRecipe(new BufferedReader(new FileReader(recipeFiles.get(i))));
             }catch(FileNotFoundException e){
+                System.out.println("File loading failed");
                 e.printStackTrace();
+                System.exit(1);
             }
         }
     }
