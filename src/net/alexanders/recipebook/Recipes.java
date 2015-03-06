@@ -85,7 +85,7 @@ public class Recipes
                     "      <b>Spinach Pancakes</b>\n" +
                     "    </h1>\n" +
                     "    <p>\n" +
-                    "      Hmm Spinach Pancakes. Source: <a href='http://www.opensourcefood.com/people/thunderboy/recipes/chocolate-mousse'>here</a>\n <br>Serve as appetizer or light lunch." +
+                    "      Hmm Spinach Pancakes. Source: <a href='http://www.opensourcefood.com/people/Paula/recipes/spinach-pancakes'>here</a>\n <br>Serve as appetizer or light lunch." +
                     "    </p>\n" +
                     "    <h3>\n" +
                     "      <i>Ingredients</i>\n" +

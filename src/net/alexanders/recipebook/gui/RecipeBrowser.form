@@ -26,7 +26,7 @@
             <properties/>
             <border type="none"/>
             <children>
-              <component id="cc8f9" class="javax.swing.JEditorPane" binding="recept">
+              <component id="cc8f9" class="javax.swing.JEditorPane" binding="recipe">
                 <constraints/>
                 <properties>
                   <contentType value="text/html"/>

@@ -1,17 +1,17 @@
 package net.alexanders.recipebook.gui;
 
-import net.alexanders.recipebook.*;
-
 import javax.swing.*;
 import javax.swing.event.*;
+import javax.swing.text.*;
+import java.awt.*;
 import java.io.*;
+import java.net.*;
 import java.util.*;
-import java.util.stream.*;
 
 public class RecipeBrowser{
     
     private JList RecipeList;
-    private JEditorPane recept;
+    private JEditorPane recipe;
     private JPanel mainPanel;
     private JScrollPane scroller;
     public static String[] recipes;
@@ -34,6 +34,20 @@ public class RecipeBrowser{
             model.addElement(recipeName);
         }
         recipeBrowser.RecipeList.setModel(model);
+        recipeBrowser.recipe.addHyperlinkListener(new HyperlinkListener(){
+            @Override
+            public void hyperlinkUpdate(HyperlinkEvent e){
+                if(e.getEventType() == HyperlinkEvent.EventType.ACTIVATED)
+                if(Desktop.isDesktopSupported()){
+                    try{
+                        Desktop.getDesktop().browse(e.getURL().toURI());
+                    }catch(IOException|URISyntaxException ex){
+                        System.out.println("Invalid URL");
+                        ex.printStackTrace();
+                    }
+                }
+            }
+        });
         frame.pack();
         frame.setSize(1024, 720);
         frame.setLocationRelativeTo(null);
@@ -41,9 +55,11 @@ public class RecipeBrowser{
     }
 
     public static void changeRecipe(String recipeName){
-        Stream stream = Arrays.stream(recipeNames).filter(recipeName::equals);
-        if(stream.count() == 1){
-
+        for(int i = 0; i < recipeNames.length; i++){
+            if(recipeName.equals(recipeNames[i])){
+                recipeBrowser.recipe.setText(recipes[i]);
+                recipeBrowser.recipe.setCaretPosition(0);
+            }
         }
     }
 
@@ -63,14 +79,17 @@ public class RecipeBrowser{
                 System.out.println("The RecipeBook folder was empty please populate it.");
             }
         }
-        recipeNames = new String[recipeFiles.size()-1];
+        recipeNames = new String[recipeFiles.size()];
         for(int i = 0; i < recipeFiles.size(); i++){
             File file = recipeFiles.get(i);
-            recipeNames[i] = file.getName().substring(1, file.getName().length() - 3);
+            recipeNames[i] = file.getName();
         }
+        recipes = new String[recipeFiles.size()];
         for(int i = 0; i < recipeFiles.size(); i++){
             try{
-                recipes[i] = loadRecipe(new BufferedReader(new FileReader(recipeFiles.get(i))));
+                File file = recipeFiles.get(i);
+                BufferedReader reader = new BufferedReader(new FileReader(file));
+                recipes[i] = loadRecipe(reader);
             }catch(FileNotFoundException e){
                 e.printStackTrace();
             }
